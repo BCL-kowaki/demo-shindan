@@ -242,10 +242,18 @@ export default function Chat() {
 
       const diagnosisResult = calculateDiagnosis(answers);
       const payload = {
-        diagnosis: { type: diagnosisResult.type, title: diagnosisResult.title },
+        diagnosis: {
+          type: diagnosisResult.type,
+          title: diagnosisResult.title,
+          description: diagnosisResult.description,
+          nextAction: diagnosisResult.nextAction,
+        },
         name: name,
         email: email,
-        answers: answers.map((a) => a.answerText),
+        answers: answers.map((a) => ({
+          question: questions.find((q) => q.id === a.questionId)?.text,
+          answer: a.answerText,
+        })),
       };
 
       try {
@@ -357,15 +365,17 @@ export default function Chat() {
                     {msg.result.type} タイプ
                   </h3>
                   <div className="w-full h-px bg-gray-200 my-4"></div>
-                  <p className="text-base leading-relaxed text-gray-700">
+                  <p className="text-base leading-relaxed whitespace-pre-wrap text-gray-700">
                     {msg.result.description}
                   </p>
-                  <p className="text-right mt-4 font-bold text-lg">
-                    あなたの資産は{" "}
-                    <span className="text-yellow-500">
-                      『{msg.result.castle}』
-                    </span>
-                  </p>
+                  <div className="mt-6 bg-amber-50 rounded-lg p-4">
+                    <p className="font-bold text-sm text-amber-700">
+                      次への一手
+                    </p>
+                    <p className="mt-1 font-bold text-lg text-amber-900">
+                      {msg.result.nextAction}
+                    </p>
+                  </div>
                 </div>
               ) : (
                 msg.text && (

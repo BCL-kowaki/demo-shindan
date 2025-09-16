@@ -1,17 +1,18 @@
-
-import { questions, Option } from './questions';
+import { questions, Option } from "./questions";
 
 export type DiagnosisResult = {
   type: string;
   title: string;
   description: string;
-  castle: string;
+  nextAction: string;
 };
 
-export const calculateDiagnosis = (answers: { questionId: number; optionIndex: number }[]): DiagnosisResult => {
+export const calculateDiagnosis = (
+  answers: { questionId: number; optionIndex: number }[]
+): DiagnosisResult => {
   let totalPoints = 0;
-  answers.forEach(answer => {
-    const question = questions.find(q => q.id === answer.questionId);
+  answers.forEach((answer) => {
+    const question = questions.find((q) => q.id === answer.questionId);
     if (question && !question.isInfoOnly) {
       const selectedOption = question.options[answer.optionIndex];
       if (selectedOption) {
@@ -20,47 +21,39 @@ export const calculateDiagnosis = (answers: { questionId: number; optionIndex: n
     }
   });
 
-  if (totalPoints >= 8 && totalPoints <= 11) {
+  if (totalPoints >= 10 && totalPoints <= 17) {
     return {
-      type: "徳川家康",
-      title: "鉄壁の価値投資家",
-      description: "あなたは、短期的な市場の熱狂に惑わされず、資産の真の価値を見抜く力を持つ投資家です。派手さはありませんが、その忍耐強い戦略は複利の力を最大限に活かし、数十年単位で盤石な資産を築き上げます。「鳴かぬなら鳴くまで待とう」の精神で、最適な時が来るまで静かに待ち、好機を逃しません。ウォーレン・バフェットが説く「バイ・アンド・ホールド」の真髄を、あなたは感覚的に理解しているのかもしれません。",
-      castle: "江戸城"
+      type: "Aタイプ：要精密検査レベル",
+      title: "あなたの資産管理は「創業期」の段階です。",
+      description:
+        "日々の経営に注力するあまり、個人資産の戦略設計が後回しになっている可能性があります。まずは会社の経営と同じように、ご自身の資産にも「事業計画書」を作るところから始めましょう。\n\n**優先課題: 目標設定と現状把握**",
+      nextAction: "「保有資産の棚卸し」を行い、資産の全体像を把握すること。",
     };
-  } else if (totalPoints >= 12 && totalPoints <= 15) {
+  } else if (totalPoints >= 18 && totalPoints <= 25) {
     return {
-      type: "武田信玄",
-      title: "緻密な分散投資家",
-      description: "あなたは、戦の勝敗をデータと規律によって支配する、優れた戦略家タイプの投資家です。「風林火山」の旗印のごとく、市場が静かな時には動かず、動くべき時には迅速に、しかし常に計算されたリスクの範囲で行動します。感情的な判断を排し、徹底した分散投資とリスク管理で「負けない投資」を実践することで、着実に勝利を積み重ねていくでしょう。",
-      castle: "武田の騎馬軍団"
+      type: "Bタイプ：経過観察レベル",
+      title: "あなたの資産管理は「成長期」に入っています。",
+      description:
+        "基本的な目標や現状の把握はできていますが、事業の成長と共に資産も複雑化し、潜在的なリスクや税金の課題が見過ごされているかもしれません。会社の成長に合わせて管理部門を強化するように、資産管理の「リスク・コスト管理」体制を強化すべき時期です。\n\n**優先課題: リスク管理と税金対策**",
+      nextAction:
+        "「税金という名の固定費」を正確に把握し、専門家へ相談すること。",
     };
-  } else if (totalPoints >= 16 && totalPoints <= 19) {
+  } else if (totalPoints >= 26 && totalPoints <= 33) {
     return {
-      type: "上杉謙信",
-      title: "信念の理念投資家",
-      description: "あなたは、単なる利益の追求だけを目的としない、高潔な精神を持つ投資家です。自らが掲げる「義」や信念に基づき、社会的に意義のある企業や、未来を応援したいと思える活動に資金を投じます。市場のノイズや短期的な利益には惑わされず、自らの価値観を投資判断の根幹に据えるため、長期的に満足度の高い資産形成ができるでしょう。",
-      castle: "謙信公"
+      type: "Cタイプ：良好レベル",
+      title: "あなたの資産管理は「安定期」にあります。",
+      description:
+        "現状把握とリスク管理の意識は高く、資産は順調に成長しているでしょう。しかし、会社の経営に「終わり」がないように、資産管理にも完成はありません。次のステージとして、万が一の事態や次世代への継承を見据えた、長期的な「将来設計」に目を向けることが重要です。\n\n**優先課題: 事業承継と相続対策**",
+      nextAction: "「事業承継計画」を具体的に検討し、家族と共有すること。",
     };
-  } else if (totalPoints >= 20 && totalPoints <= 23) {
+  } else {
+    // 34 to 40
     return {
-      type: "豊臣秀吉",
-      title: "時流の機会投資家",
-      description: "あなたは、人の心と市場の「空気」を読む天才的な才能を持つ投資家です。一介の農民から天下人にまで上り詰めたように、誰も気づかないような僅かな変化から大きなチャンスを見出し、機を見るに敏な判断で資産を築きます。その柔軟な思考は、停滞した市場でも利益を生み出すでしょう。",
-      castle: "一夜城"
-    };
-  } else if (totalPoints >= 24 && totalPoints <= 27) {
-    return {
-      type: "伊達政宗",
-      title: "先見の国際投資家",
-      description: "あなたは、常に時代の半歩先を読み、まだ誰も見向きもしないフロンティアに可能性を見出す投資家です。その洗練された感性と情報感度は、国内の常識に縛られません。新興国市場、最先端技術、新たなアセットクラス…あなたが「面白い」と感じたものこそが、次代のスタンダードになる可能性を秘めています。",
-      castle: "世界"
-    };
-  } else { // 28 to 32
-    return {
-      type: "織田信長",
-      title: "革新の成長投資家",
-      description: "あなたは、古い常識や前例を破壊し、全く新しい価値を創造することに喜びを見出す、天性の革命家です。「天下布武」を掲げたように、あなたの投資は既存の秩序を塗り替えるほどのポテンシャルを秘めています。破壊的イノベーションを起こすであろう数少ない企業に資産を集中させ、常識外れのハイリターンを狙います。その道は大きなリスクを伴いますが、世界を変えるのは、いつの時代もあなたのようなビジョナリーなのです。",
-      castle: "天下布武"
+      type: "Dタイプ：優良レベル",
+      title: "あなたの資産管理は「次世代経営」の視点を持つ「優良」な状態です。",
+      description:
+        "明確な戦略のもと、リスク管理や将来設計まで高いレベルで実践できています。今後も最新の税制や経済状況に合わせて計画を最適化し続けることで、あなたの資産は会社と同様に、世代を超えて価値を生み出す存在となるでしょう。\n\n**優先課題: 計画の定期的な見直しと最適化**",
+      nextAction: "最新の情報に基づき、専門家と定期的なレビューを行うこと。",
     };
   }
 };
